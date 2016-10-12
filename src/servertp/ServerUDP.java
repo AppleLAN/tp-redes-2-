@@ -5,7 +5,7 @@
  */
 package servertp;
 
-import common.Noticia;
+import common.Juego;
 import common.Request;
 import java.io.ByteArrayInputStream;
 import java.io.ObjectInputStream;
@@ -13,7 +13,7 @@ import java.io.PrintStream;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
-import servertp.RepoNoticias;
+import servertp.RepoJuegos;
 
 /**
  *
@@ -32,7 +32,7 @@ public class ServerUDP {
         
         int port = 6007;
         Request req = null;
-        RepoNoticias repo = new RepoNoticias();
+        RepoJuegos repo = new RepoJuegos();
         DatagramSocket serverUDP = new DatagramSocket(port);
         byte[] incomingData = new byte[1024];
         System.out.println("Servidor Escuchando por puerto " + String.valueOf(port));
@@ -51,35 +51,22 @@ public class ServerUDP {
             InetAddress IPAddress = incomingPacket.getAddress();
             int portToSend = incomingPacket.getPort();
             String reply = "";
-            if(req != null) {
-                switch(req.getIdOperacion()) {
+                if (req != null) {
+                switch (req.getIdOperacion()) {
                     case 1:
-                        reply = repo.GetTitulos();
+                        reply = repo.MostrarJuegos();
                         break;
                     case 2:
                         if (req.getPayload() != null) {
-                            int id = (Integer)req.getPayload();
-                            if (repo.IndexExists(id)) {
-                                reply = repo.GetNoticiaByIndex(id);
-                            } else {
-                                reply = "Indice invalido";
-                            }
-                        }else{
-                            reply = "Error mostrando noticia";
-                        }
-                        break;
-                    case 3:
-                        if (req.getPayload() != null) {
-                            repo.AgregarNoticia((Noticia) req.getPayload());
-                            reply = "Noticia agregada con exito";
+                            repo.AgregarJuego((Juego) req.getPayload());
+                            reply = "Juego agregado con exito";
                         } else {
-                            reply = "Error agregando noticia";
+                            reply = "Error agregando juego";
                         }
                         break;
                     default:
                         reply = "Codigo de operacion invalido";
                         break;
-                            
                 }
                 
                 byte[] replyBytes = reply.getBytes();

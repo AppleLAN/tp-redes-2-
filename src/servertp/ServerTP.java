@@ -5,7 +5,7 @@
  */
 package servertp;
 
-import common.Noticia;
+import common.Juego;
 import common.Request;
 import java.io.BufferedReader;
 import java.io.DataInputStream;
@@ -31,7 +31,7 @@ public class ServerTP {
     public static void main(String[] args) throws Exception {
 
         int port = 6006;
-        RepoNoticias repo = new RepoNoticias();
+        RepoJuegos repo = new RepoJuegos();
         ServerSocket server = new ServerSocket(port);
         System.out.println("Servidor Escuchando por puerto " + String.valueOf(port));
 
@@ -45,26 +45,19 @@ public class ServerTP {
             if (req != null) {
                 switch (req.getIdOperacion()) {
                     case 1:
-                        PS.println(repo.GetTitulos());
+                        PS.println(repo.MostrarJuegos());
                         break;
                     case 2:
                         if (req.getPayload() != null) {
-                            int id = (Integer)req.getPayload();
-                            if (repo.IndexExists(id)) {
-                                PS.println(repo.GetNoticiaByIndex(id));
+                            if (false == repo.IndexExists((Juego) req.getPayload())) {
+                                repo.AgregarJuego((Juego) req.getPayload());
+                                PS.println("Juego agregado con exito");
                             } else {
-                                PS.println("Indice invalido");
+                                PS.println("juego ya existe");
                             }
-                        }else{
-                            PS.println("Error mostrando noticia");
-                        }
-                        break;
-                    case 3:
-                        if (req.getPayload() != null) {
-                            repo.AgregarNoticia((Noticia) req.getPayload());
-                            PS.println("Noticia agregada con exito");
+                            
                         } else {
-                            PS.println("Error agregando noticia");
+                            PS.println("Error agregando juego");
                         }
                         break;
                     default:

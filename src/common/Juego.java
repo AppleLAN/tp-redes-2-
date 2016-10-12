@@ -11,13 +11,11 @@ import java.io.Serializable;
  *
  * @author juan.dapice
  */
-public class Noticia implements Serializable{
+public class Juego implements Serializable{
     private String titulo;
-    private String cuerpo;
     
-    public Noticia(String titulo, String cuerpo){
+    public Juego(String titulo){
         this.titulo = titulo;
-        this.cuerpo = cuerpo;
     }
 
     /**
@@ -32,19 +30,5 @@ public class Noticia implements Serializable{
      */
     public void setTitulo(String titulo) {
         this.titulo = titulo;
-    }
-
-    /**
-     * @return the cuerpo
-     */
-    public String getCuerpo() {
-        return cuerpo;
-    }
-
-    /**
-     * @param cuerpo the cuerpo to set
-     */
-    public void setCuerpo(String cuerpo) {
-        this.cuerpo = cuerpo;
     }
 }

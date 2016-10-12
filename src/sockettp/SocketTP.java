@@ -6,7 +6,7 @@
 package sockettp;
 
 import common.Request;
-import common.Noticia;
+import common.Juego;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -56,9 +56,9 @@ public class SocketTP {
 
         while (!quiereSalir) {
 
-            System.out.println("Por favor escriba la opción para realizar una tarea y aprete Enter");
-            System.out.println("1. Mostrar todas las noticias");
-            System.out.println("2. Agregar noticia");
+            System.out.println("Por favor escriba la opción y aprete Enter");
+            System.out.println("1. mostrar lista de juegos");
+            System.out.println("2. agregar nuevo juego");
             System.out.println("3. Salir");
 
             BufferedReader bufferRead = new BufferedReader(new InputStreamReader(System.in));
@@ -67,33 +67,19 @@ public class SocketTP {
                 case "1":
                     try {
                         String titulos = cliente.Handle(new Request(1, null));
-                        System.out.println("Titulos:");
-                        System.out.print("\n" + titulos.replace("$;", "\n"));
+                        System.out.println("Estos son los juegos:");
+                        System.out.println(titulos);
 
-                        System.out.println("Elija una noticia y aprete Enter");
-                        String indiceNoticia = bufferRead.readLine();
-                        if (tryParseInt(indiceNoticia)) {
-                            String noticia = cliente.Handle(new Request(2, Integer.parseInt(indiceNoticia)));
-                            System.out.println("Cuerpo Noticia:");
-                            System.out.println(noticia);
-                        } else {
-                            System.out.println("Elija un número.");
-                        }
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                     break;
                 case "2":
                     try {
-                        System.out.println("Escriba el titulo por favor y aprete Enter");
+                        System.out.println("Escriba el titulo del juego por favor y aprete Enter");
                         String titulo = bufferRead.readLine();
-
-                        System.out.println("Escriba el cuerpo por favor y aprete Enter");
-                        String cuerpo = bufferRead.readLine();
-
-                        Noticia noti = new Noticia(titulo, cuerpo);
-
-                        String respuesta = cliente.Handle(new Request(3, noti));
+                        Juego jueg = new Juego(titulo);
+                        String respuesta = cliente.Handle(new Request(2, jueg));
                         System.out.println(respuesta);
                     } catch (Exception e) {
                         e.printStackTrace();
