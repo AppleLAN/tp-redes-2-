@@ -5,12 +5,11 @@
  */
 package sockettp;
 
-import common.Request;
-import common.Juego;
 import java.io.BufferedReader;
-import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.PrintStream;
+import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.net.Socket;
 
 //Codigos de operacion para server y cliente: 
@@ -24,69 +23,34 @@ import java.net.Socket;
 public class SocketTP {
 
     /**
-     * @param args the command line arguments
      */
     public static int PuertoServerTCP = 6006;
     public static String HostnameServerTCP = "localhost";
     
     public static void main(String[] args) throws Exception {
         // TODO code application logic here
-        boolean quiereSalir = false;
-        boolean quiereSalirDeSelec = false;
-        iCliente cliente = null;
-        while (!quiereSalirDeSelec) {
-            System.out.println("Por favor elija que tipo de socket quiere probar.");
-            System.out.println("1. Socket TCP");
-            BufferedReader bufferReadToChoose = new BufferedReader(new InputStreamReader(System.in));
-            String chooseClient = bufferReadToChoose.readLine();
-            if (chooseClient.equals("1")) {
-                cliente = new ClienteTCP(HostnameServerTCP, PuertoServerTCP);
-                quiereSalirDeSelec = true;
-            }
-             else {
-                System.out.println("Elija una opción válida por favor");
-            }
-        }
+         Socket sock = new Socket(HostnameServerTCP, PuertoServerTCP);
+                               // reading from keyboard (keyRead object)
+        BufferedReader keyRead = new BufferedReader(new InputStreamReader(System.in));
+                              // sending to client (pwrite object)
+        OutputStream ostream = sock.getOutputStream(); 
+        PrintWriter pwrite = new PrintWriter(ostream, true);
 
-        while (!quiereSalir) {
+                              // receiving from server ( receiveRead  object)
+        InputStream istream = sock.getInputStream();
+        BufferedReader receiveRead = new BufferedReader(new InputStreamReader(istream));
 
-            System.out.println("Por favor escriba la opción y aprete Enter");
-            System.out.println("1. mostrar lista de juegos");
-            System.out.println("2. agregar nuevo juego");
-            System.out.println("3. Salir");
-
-            BufferedReader bufferRead = new BufferedReader(new InputStreamReader(System.in));
-            String answer = bufferRead.readLine();
-            switch (answer) {
-                case "1":
-                    try {
-                        String titulos = cliente.Handle(new Request(1, null));
-                        System.out.println("Estos son los juegos:");
-                        System.out.println(titulos);
-
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                    break;
-                case "2":
-                    try {
-                        System.out.println("Escriba el titulo del juego por favor y aprete Enter");
-                        String titulo = bufferRead.readLine();
-                        Juego jueg = new Juego(titulo);
-                        String respuesta = cliente.Handle(new Request(2, jueg));
-                        System.out.println(respuesta);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                    break;
-                case "3":
-                    quiereSalir = true;
-                    break;
-                default:
-                    System.out.println("Elija una opcion valida");
-                    break;
-            }
-        }
+        String receiveMessage, sendMessage;               
+        while(true)
+        {
+           sendMessage = keyRead.readLine();  // keyboard reading
+           pwrite.println(sendMessage);       // sending to server
+           pwrite.flush();                    // flush the data
+           if((receiveMessage = receiveRead.readLine()) != null) //receive from server
+           {
+               System.out.println(receiveMessage); // displaying at DOS prompt
+           }         
+         }                                   
     }
     
     public static boolean tryParseInt(String value) {  

@@ -5,19 +5,13 @@
  */
 package servertp;
 
-import common.Juego;
-import common.Request;
 import java.io.BufferedReader;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.ObjectInputStream;
-import java.io.PrintStream;
+import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.SocketTimeoutException;
-import java.util.ArrayList;
 
 /**
  *
@@ -27,46 +21,37 @@ public class ServerTP {
 
     /**
      * @param args the command line arguments
+     * @throws java.lang.Exception
      */
     public static void main(String[] args) throws Exception {
 
         int port = 6006;
-        RepoJuegos repo = new RepoJuegos();
         ServerSocket server = new ServerSocket(port);
         System.out.println("Servidor Escuchando por puerto " + String.valueOf(port));
-
+        
         while (true) {
             Socket clientSocket = server.accept();
-            ObjectInputStream OIS = new ObjectInputStream(clientSocket.getInputStream());
-            Request req = (Request) OIS.readObject();
+             // reading from keyboard (keyRead object)
+            BufferedReader keyRead = new BufferedReader(new InputStreamReader(System.in));
+            // sending to client (pwrite object)
+            OutputStream ostream = clientSocket.getOutputStream(); 
+            PrintWriter pwrite = new PrintWriter(ostream, true);
+            
+            // receiving from server ( receiveRead  object)
+            InputStream istream = clientSocket.getInputStream();
+            BufferedReader receiveRead = new BufferedReader(new InputStreamReader(istream));
 
-            PrintStream PS = new PrintStream(clientSocket.getOutputStream());
-
-            if (req != null) {
-                switch (req.getIdOperacion()) {
-                    case 1:
-                        PS.println(repo.MostrarJuegos());
-                        break;
-                    case 2:
-                        if (req.getPayload() != null) {
-                            if (false == repo.IndexExists((Juego) req.getPayload())) {
-                                repo.AgregarJuego((Juego) req.getPayload());
-                                PS.println("Juego agregado con exito");
-                            } else {
-                                PS.println("juego ya existe");
-                            }
-                            
-                        } else {
-                            PS.println("Error agregando juego");
-                        }
-                        break;
-                    default:
-                        PS.println("Codigo de operacion invalido");
-                        break;
-                }
-            } else {
-                PS.println("Request invalido");
-            }
+            String receiveMessage, sendMessage;               
+            while(true)
+            {
+              if((receiveMessage = receiveRead.readLine()) != null)  
+              {
+                 System.out.println(receiveMessage);         
+              }         
+              sendMessage = keyRead.readLine(); 
+              pwrite.println(sendMessage);             
+              pwrite.flush();
+            }               
+          }                    
         }
     }
-}
