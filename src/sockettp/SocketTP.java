@@ -27,9 +27,7 @@ public class SocketTP {
      * @param args the command line arguments
      */
     public static int PuertoServerTCP = 6006;
-    public static int PuertoServerUDP = 6007;
     public static String HostnameServerTCP = "localhost";
-    public static String HostnameServerUDP = "localhost";
     
     public static void main(String[] args) throws Exception {
         // TODO code application logic here
@@ -39,17 +37,13 @@ public class SocketTP {
         while (!quiereSalirDeSelec) {
             System.out.println("Por favor elija que tipo de socket quiere probar.");
             System.out.println("1. Socket TCP");
-            System.out.println("2. Socket UDP");
             BufferedReader bufferReadToChoose = new BufferedReader(new InputStreamReader(System.in));
             String chooseClient = bufferReadToChoose.readLine();
             if (chooseClient.equals("1")) {
                 cliente = new ClienteTCP(HostnameServerTCP, PuertoServerTCP);
                 quiereSalirDeSelec = true;
             }
-            if (chooseClient.equals("2")) {
-                cliente = new ClienteUDP(HostnameServerUDP, PuertoServerUDP);
-                quiereSalirDeSelec = true;
-            } else {
+             else {
                 System.out.println("Elija una opción válida por favor");
             }
         }

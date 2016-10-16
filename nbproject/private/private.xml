@@ -3,12 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Admin/Documents/GitHub/redes/src/common/Noticia.java</file>
+            <file>file:/C:/Users/Admin/Documents/GitHub/redes/src/common/Juego.java</file>
+            <file>file:/C:/Users/Admin/Documents/GitHub/redes/src/servertp/RepoJuegos.java</file>
             <file>file:/C:/Users/Admin/Documents/GitHub/redes/src/servertp/ServerTP.java</file>
             <file>file:/C:/Users/Admin/Documents/GitHub/redes/src/common/Request.java</file>
             <file>file:/C:/Users/Admin/Documents/GitHub/redes/src/sockettp/SocketTP.java</file>
-            <file>file:/C:/Users/Admin/Documents/GitHub/redes/src/sockettp/ClienteTCP.java</file>
-            <file>file:/C:/Users/Admin/Documents/GitHub/redes/src/servertp/RepoNoticias.java</file>
+            <file>file:/C:/Users/Admin/Documents/GitHub/redes/src/servertp/ServerUDP.java</file>
         </group>
     </open-files>
 </project-private>
