@@ -5,53 +5,47 @@
  */
 package servertp;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.PrintWriter;
-import java.net.ServerSocket;
-import java.net.Socket;
-
+import java.io.*;
+import java.net.*;
+import java.util.*;
 /**
  *
  * @author gaston.mira
  */
 public class ServerTP {
-
+    public static ArrayList<Socket> ConnectionArray = new ArrayList<Socket>();
     /**
      * @param args the command line arguments
-     * @throws java.lang.Exception
+     * @throws java.io.IOException
      */
     public static void main(String[] args) throws Exception {
-
-        int port = 6006;
-        ServerSocket server = new ServerSocket(port);
-        System.out.println("Servidor Escuchando por puerto " + String.valueOf(port));
-        
-        while (true) {
-            Socket clientSocket = server.accept();
-             // reading from keyboard (keyRead object)
-            BufferedReader keyRead = new BufferedReader(new InputStreamReader(System.in));
-            // sending to client (pwrite object)
-            OutputStream ostream = clientSocket.getOutputStream(); 
-            PrintWriter pwrite = new PrintWriter(ostream, true);
+            ServerTP SERVER = new ServerTP();
+            SERVER.run();
+    }
+    public void run() throws IOException {
+        try{
+            final int port = 444;
+            ServerSocket server = new ServerSocket(port);
+            System.out.println("Servidor Escuchando por puerto " + String.valueOf(port));
             
-            // receiving from server ( receiveRead  object)
-            InputStream istream = clientSocket.getInputStream();
-            BufferedReader receiveRead = new BufferedReader(new InputStreamReader(istream));
+            while(true) {
+                Socket SOCK = server.accept();
+                ConnectionArray.add(SOCK);
+                
+                System.out.println("Client connected from: " + SOCK.getLocalAddress().getHostName());
 
-            String receiveMessage, sendMessage;               
-            while(true)
-            {
-              if((receiveMessage = receiveRead.readLine()) != null)  
-              {
-                 System.out.println(receiveMessage);         
-              }         
-              sendMessage = keyRead.readLine(); 
-              pwrite.println(sendMessage);             
-              pwrite.flush();
-            }               
-          }                    
+                // reading from keyboard (keyRead object)
+                InputStreamReader IR = new InputStreamReader(SOCK.getInputStream());
+                BufferedReader BR = new BufferedReader(IR);
+                // sending to client (pwrite object)       
+                String Message = BR.readLine();
+                System.out.println(Message);
+                    PrintStream PS = new PrintStream(SOCK.getOutputStream());
+                    PS.println(Message + " tomado con exito por parte del server");
+            }
+        }
+        catch (IOException x){ System.out.println("error");
+            
         }
     }
+}

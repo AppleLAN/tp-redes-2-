@@ -1,5 +1,16 @@
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintStream;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import servertp.ServerTP;
+import static servertp.ServerTP.ConnectionArray;
 import sockettp.SocketTP;
 
 /*
@@ -131,17 +142,59 @@ public class Vista extends javax.swing.JFrame {
 
     private void ServerStartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ServerStartActionPerformed
         // TODO add your handling code here:
-        ServerTP server = new ServerTP();
+        try{
+            final int port = 444;
+            ServerSocket server = new ServerSocket(port);
+            System.out.println("Servidor Escuchando por puerto " + String.valueOf(port));
+            
+            while(true) {
+                Socket SOCK = server.accept();
+                ConnectionArray.add(SOCK);
+                
+                System.out.println("Client connected from: " + SOCK.getLocalAddress().getHostName());
+
+                // reading from keyboard (keyRead object)
+                InputStreamReader IR = new InputStreamReader(SOCK.getInputStream());
+                BufferedReader BR = new BufferedReader(IR);
+                // sending to client (pwrite object)       
+                String Message = BR.readLine();
+                System.out.println(Message);
+                if(Message != null){
+                    PrintStream PS = new PrintStream(SOCK.getOutputStream());
+                    PS.println(Message);
+                }
+            }
+        }
+        catch (IOException x){ System.out.println("error");
+            
+        }
     }//GEN-LAST:event_ServerStartActionPerformed
 
     private void ClientStartMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ClientStartMouseClicked
-        // TODO add your handling code here:
-        SocketTP socket = new SocketTP();
-        if(started !=true) {
-            int randomNum = 0 + (int)(Math.random() * 14);
-            GameTable.setValueAt("B",randomNum,0);
+        try {
+            // TODO add your handling code here:
+            Socket SOCK = new Socket("localhost",444);
+            PrintStream PS = new PrintStream(SOCK.getOutputStream());
+            Scanner keyboard = new Scanner(System.in);
+            System.out.println("Escribi guachin");
+            String myint = keyboard.nextLine();
+            
+            PS.println(myint);
+            
+            InputStreamReader IR = new InputStreamReader(SOCK.getInputStream());
+            BufferedReader BR = new BufferedReader(IR);
+            String Message = BR.readLine();
+            
+            System.out.println(Message);
+            if(started !=true) {
+                int randomNum = 0 + (int)(Math.random() * 14);
+                GameTable.setValueAt("B",randomNum,0);
+            }
+            JOptionPane.showMessageDialog(null, Message, "InfoBox: " + "alerta", JOptionPane.INFORMATION_MESSAGE);
+            started = true;
+        } catch (IOException ex) {
+            Logger.getLogger(Vista.class.getName()).log(Level.SEVERE, null, ex);
         }
-        started = true;
 
     }//GEN-LAST:event_ClientStartMouseClicked
 
