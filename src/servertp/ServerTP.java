@@ -13,7 +13,7 @@ import java.util.*;
  * @author gaston.mira
  */
 public class ServerTP {
-    public static ArrayList<Socket> ConnectionArray = new ArrayList<Socket>();
+    private ArrayList<ServerObjects> ConnectionArray = new ArrayList<ServerObjects>();
     /**
      * @param args the command line arguments
      * @throws java.io.IOException
@@ -29,19 +29,18 @@ public class ServerTP {
             System.out.println("Servidor Escuchando por puerto " + String.valueOf(port));
             
             while(true) {
-                Socket SOCK = server.accept();
-                ConnectionArray.add(SOCK);
+                if(ConnectionArray.size() < 2){
+                    Socket SOCK = server.accept();
+                    ServerObjects serverObject = new ServerObjects(SOCK);
+                    ConnectionArray.add(serverObject);
                 
-                System.out.println("Client connected from: " + SOCK.getLocalAddress().getHostName());
-
-                // reading from keyboard (keyRead object)
-                InputStreamReader IR = new InputStreamReader(SOCK.getInputStream());
-                BufferedReader BR = new BufferedReader(IR);
-                // sending to client (pwrite object)       
-                String Message = BR.readLine();
-                System.out.println(Message);
-                    PrintStream PS = new PrintStream(SOCK.getOutputStream());
-                    PS.println(Message + " tomado con exito por parte del server");
+                    System.out.println("Client connected from: " + serverObject.getSOCK().getLocalAddress().getHostName());
+                    
+                    Runnable  run = new HiloServidor(serverObject,ConnectionArray);
+                    Thread hilo = new Thread(run);
+                    hilo.start();
+                    
+                }
             }
         }
         catch (IOException x){ System.out.println("error");

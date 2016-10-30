@@ -17,11 +17,11 @@ import java.util.Scanner;
  *
  * @author gastonmira
  */
-public class SocketTP {
+public class SocketTP implements Runnable{
 
     /**
      */
-    public static int PuertoServerTCP = 6006;
+    public static int PuertoServerTCP = 444;
     public static String HostnameServerTCP = "localhost";
     
     public static void main(String[] args) throws Exception {
@@ -30,7 +30,7 @@ public class SocketTP {
     }
     public void run() throws Exception {
         // TODO code application logic here
-        Socket SOCK = new Socket("localhost",444);
+        Socket SOCK = new Socket(HostnameServerTCP,PuertoServerTCP);
         PrintStream PS = new PrintStream(SOCK.getOutputStream());
         Scanner keyboard = new Scanner(System.in);
         System.out.println("Escribi guachin");

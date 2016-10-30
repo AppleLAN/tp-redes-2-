@@ -3,14 +3,11 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
-import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import servertp.ServerTP;
-import static servertp.ServerTP.ConnectionArray;
 import sockettp.SocketTP;
 
 /*
@@ -42,11 +39,9 @@ public class Vista extends javax.swing.JFrame {
     private void initComponents() {
 
         PanelInicio = new javax.swing.JPanel();
-        ServerStart = new javax.swing.JButton();
         ClientStart = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         GameTable = new javax.swing.JTable();
-        Client2Start = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -61,14 +56,7 @@ public class Vista extends javax.swing.JFrame {
             .addGap(0, 277, Short.MAX_VALUE)
         );
 
-        ServerStart.setText("Server Start");
-        ServerStart.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ServerStartActionPerformed(evt);
-            }
-        });
-
-        ClientStart.setText("Client Start");
+        ClientStart.setText("Connect");
         ClientStart.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 ClientStartMouseClicked(evt);
@@ -98,24 +86,14 @@ public class Vista extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(GameTable);
 
-        Client2Start.setText("Client 2 Start");
-        Client2Start.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                Client2StartMouseClicked(evt);
-            }
-        });
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(ServerStart)
-                    .addComponent(ClientStart, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Client2Start))
-                .addGap(18, 18, 18)
+                .addComponent(ClientStart, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(22, 22, 22)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(PanelInicio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -124,12 +102,8 @@ public class Vista extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(PanelInicio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addGap(49, 49, 49)
-                .addComponent(ServerStart)
-                .addGap(71, 71, 71)
+                .addGap(143, 143, 143)
                 .addComponent(ClientStart)
-                .addGap(39, 39, 39)
-                .addComponent(Client2Start)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
@@ -140,73 +114,13 @@ public class Vista extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void ServerStartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ServerStartActionPerformed
-        // TODO add your handling code here:
-        try{
-            final int port = 444;
-            ServerSocket server = new ServerSocket(port);
-            System.out.println("Servidor Escuchando por puerto " + String.valueOf(port));
-            
-            while(true) {
-                Socket SOCK = server.accept();
-                ConnectionArray.add(SOCK);
-                
-                System.out.println("Client connected from: " + SOCK.getLocalAddress().getHostName());
-
-                // reading from keyboard (keyRead object)
-                InputStreamReader IR = new InputStreamReader(SOCK.getInputStream());
-                BufferedReader BR = new BufferedReader(IR);
-                // sending to client (pwrite object)       
-                String Message = BR.readLine();
-                System.out.println(Message);
-                if(Message != null){
-                    PrintStream PS = new PrintStream(SOCK.getOutputStream());
-                    PS.println(Message);
-                }
-            }
-        }
-        catch (IOException x){ System.out.println("error");
-            
-        }
-    }//GEN-LAST:event_ServerStartActionPerformed
-
     private void ClientStartMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ClientStartMouseClicked
-        try {
-            // TODO add your handling code here:
-            Socket SOCK = new Socket("localhost",444);
-            PrintStream PS = new PrintStream(SOCK.getOutputStream());
-            Scanner keyboard = new Scanner(System.in);
-            System.out.println("Escribi guachin");
-            String myint = keyboard.nextLine();
-            
-            PS.println(myint);
-            
-            InputStreamReader IR = new InputStreamReader(SOCK.getInputStream());
-            BufferedReader BR = new BufferedReader(IR);
-            String Message = BR.readLine();
-            
-            System.out.println(Message);
-            if(started !=true) {
-                int randomNum = 0 + (int)(Math.random() * 14);
-                GameTable.setValueAt("B",randomNum,0);
-            }
-            JOptionPane.showMessageDialog(null, Message, "InfoBox: " + "alerta", JOptionPane.INFORMATION_MESSAGE);
-            started = true;
-        } catch (IOException ex) {
-            Logger.getLogger(Vista.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-    }//GEN-LAST:event_ClientStartMouseClicked
-
-    private void Client2StartMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Client2StartMouseClicked
         // TODO add your handling code here:
         SocketTP socket = new SocketTP();
-        if(started2 !=true) {
-            int randomNum = 0 + (int)(Math.random() * 14);
-            GameTable.setValueAt("B",randomNum,3);
-        }
-        started2 = true;
-    }//GEN-LAST:event_Client2StartMouseClicked
+        Thread hilo = new Thread(socket);
+        hilo.start();
+        
+    }//GEN-LAST:event_ClientStartMouseClicked
 
     /**
      * @param args the command line arguments
@@ -244,11 +158,9 @@ public class Vista extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton Client2Start;
     private javax.swing.JButton ClientStart;
     private javax.swing.JTable GameTable;
     private javax.swing.JPanel PanelInicio;
-    private javax.swing.JButton ServerStart;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 }
