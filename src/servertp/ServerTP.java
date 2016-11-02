@@ -10,10 +10,10 @@ import java.net.*;
 import java.util.*;
 /**
  *
- * @author gaston.mira
+ * @author AlanB
  */
 public class ServerTP {
-    private ArrayList<ServerObjects> ConnectionArray = new ArrayList<ServerObjects>();
+    private final ArrayList<ServerObject> ConnectionArray = new ArrayList<ServerObject>();
     /**
      * @param args the command line arguments
      * @throws java.io.IOException
@@ -24,14 +24,14 @@ public class ServerTP {
     }
     public void run() throws IOException {
         try{
-            final int port = 444;
+            final int port = 3000;
             ServerSocket server = new ServerSocket(port);
             System.out.println("Servidor Escuchando por puerto " + String.valueOf(port));
             
             while(true) {
                 if(ConnectionArray.size() < 2){
                     Socket SOCK = server.accept();
-                    ServerObjects serverObject = new ServerObjects(SOCK);
+                    ServerObject serverObject = new ServerObject(SOCK);
                     ConnectionArray.add(serverObject);
                 
                     System.out.println("Client connected from: " + serverObject.getSOCK().getLocalAddress().getHostName());

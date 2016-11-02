@@ -17,12 +17,12 @@ import static jdk.nashorn.internal.parser.TokenKind.IR;
  *
  * @author AlanB
  */
-public class ServerObjects {
+public class ServerObject {
     private BufferedReader BR;
     private PrintStream PS;
     private Socket SOCK;
     
-    ServerObjects(Socket SOCK) throws IOException {
+    ServerObject(Socket SOCK) throws IOException {
         this.SOCK = SOCK;
         this.BR = new BufferedReader(new InputStreamReader(SOCK.getInputStream()));
         this.PS = new PrintStream(SOCK.getOutputStream());

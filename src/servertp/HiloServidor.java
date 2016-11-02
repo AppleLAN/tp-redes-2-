@@ -2,28 +2,24 @@
 package servertp;
 
 import java.io.BufferedReader;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
-import java.net.Socket;
 import java.util.ArrayList;
-import java.util.LinkedList;
 
 /**
  *
- * @author netosolis
+ * @author AlanB
  */
 public class HiloServidor implements Runnable{
     //Declaramos las variables que utiliza el hilo para estar recibiendo y mandando mensajes
-    private ServerObjects serverObj;
+    private ServerObject serverObj;
     private BufferedReader in;
     private PrintStream out;
     //Lista de los usuarios conectados al servidor
-    private ArrayList<ServerObjects> usuarios = new ArrayList<ServerObjects>();
+    private ArrayList<ServerObject> usuarios = new ArrayList<ServerObject>();
     
     //Constructor que recibe el socket que atendera el hilo y la lista de usuarios conectados
-    public HiloServidor(ServerObjects soc,ArrayList<ServerObjects> users){
+    public HiloServidor(ServerObject soc,ArrayList<ServerObject> users){
         serverObj = soc;
         usuarios = users;
     }

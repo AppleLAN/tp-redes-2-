@@ -18,11 +18,10 @@ import sockettp.SocketTP;
 
 /**
  *
- * @author Alan
+ * @author AlanB
  */
 public class Vista extends javax.swing.JFrame {
     boolean started = false;
-    boolean started2 = false;
     /**
      * Creates new form Vista
      */
