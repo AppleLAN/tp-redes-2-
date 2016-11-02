@@ -18,7 +18,7 @@ public class Mensaje {
     /**
      * @return the socketIndex
      */
-    public Socket getSocketIndex() {
+    public Socket getSocket() {
         return socketIndex;
     }
 

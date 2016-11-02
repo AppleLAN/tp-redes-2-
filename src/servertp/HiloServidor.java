@@ -40,10 +40,14 @@ public class HiloServidor implements Runnable{
             while(true){
                 Mensaje recibido = (Mensaje) in.readObject();
                //Cuando se recibe un mensaje se envia a todos los usuarios conectados 
-                for (int i = 0; i < usuarios.size(); i++) {
-                    out = usuarios.get(i).getPS();
-                    out.println(recibido.getKeyboard());
-                }
+               if(recibido.getSocket() ==  usuarios.get(0).getSOCK()){
+                   out = usuarios.get(1).getPS();
+                   out.println(recibido.getKeyboard());
+               }
+               else{
+                   out = usuarios.get(0).getPS();
+                   out.println(recibido.getKeyboard());
+               }    
             }
         } catch (IOException e) {
             //Si ocurre un excepcion lo mas seguro es que sea por que el cliente se desconecto asi que lo quitamos de la lista de conectados
