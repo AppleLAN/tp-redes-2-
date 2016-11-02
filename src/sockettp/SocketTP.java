@@ -35,13 +35,13 @@ public class SocketTP implements Runnable{
             // TODO code application logic here
             Mensaje mensajeSocket = new Mensaje();
             Socket SOCK = new Socket(HostnameServerTCP,PuertoServerTCP);
-            PrintStream PS = new PrintStream(SOCK.getOutputStream());
+            ObjectOutputStream PS = new ObjectOutputStream(SOCK.getOutputStream());
             Scanner keyboard = new Scanner(System.in);
-            System.out.println("Escribi guachin");
+            System.out.println("Escribi ");
             String keyboardString = keyboard.nextLine();
             mensajeSocket.setSocketIndex(SOCK);
             mensajeSocket.setKeyboard(keyboardString);
-            PS.println(mensajeSocket);
+            PS.writeObject(mensajeSocket);
             
             InputStreamReader IR = new InputStreamReader(SOCK.getInputStream());
             BufferedReader BR = new BufferedReader(IR);

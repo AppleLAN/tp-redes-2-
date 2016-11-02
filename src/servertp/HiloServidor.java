@@ -3,8 +3,12 @@ package servertp;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import sockettp.Mensaje;
 
 /**
  *
@@ -13,7 +17,7 @@ import java.util.ArrayList;
 public class HiloServidor implements Runnable{
     //Declaramos las variables que utiliza el hilo para estar recibiendo y mandando mensajes
     private ServerObject serverObj;
-    private BufferedReader in;
+    private ObjectInputStream in;
     private PrintStream out;
     //Lista de los usuarios conectados al servidor
     private ArrayList<ServerObject> usuarios = new ArrayList<ServerObject>();
@@ -31,14 +35,14 @@ public class HiloServidor implements Runnable{
             //Inicializamos los canales de comunicacion y mandamos un mensaje de bienvenida
             in = serverObj.getBR();
             out = serverObj.getPS();
-            out.println("<h2>Bienvenido....</h2>");
+            out.println("Bienvenido...");
             //Ciclo infinito para escuchar por mensajes del cliente
             while(true){
-               String recibido = in.readLine();
+                Mensaje recibido = (Mensaje) in.readObject();
                //Cuando se recibe un mensaje se envia a todos los usuarios conectados 
                 for (int i = 0; i < usuarios.size(); i++) {
                     out = usuarios.get(i).getPS();
-                    out.println(recibido);
+                    out.println(recibido.getKeyboard());
                 }
             }
         } catch (IOException e) {
@@ -49,6 +53,8 @@ public class HiloServidor implements Runnable{
                     break;
                 } 
             }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(HiloServidor.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }
