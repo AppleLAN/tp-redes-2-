@@ -8,6 +8,7 @@ package servertp;
 import java.io.*;
 import java.net.*;
 import java.util.*;
+import sockettp.Mensaje;
 /**
  *
  * @author AlanB
@@ -22,7 +23,7 @@ public class ServerTP {
             ServerTP SERVER = new ServerTP();
             SERVER.run();
     }
-    public void run() throws IOException {
+    public void run() throws IOException, ClassNotFoundException {
         try{
             final int port = 3000;
             ServerSocket server = new ServerSocket(port);
@@ -32,6 +33,7 @@ public class ServerTP {
                 if(ConnectionArray.size() < 2){
                     Socket SOCK = server.accept();
                     ServerObject serverObject = new ServerObject(SOCK);
+
                     ConnectionArray.add(serverObject);
                 
                     System.out.println("Client connected from: " + serverObject.getSOCK().getLocalAddress().getHostName());

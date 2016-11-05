@@ -31,20 +31,21 @@ public class SocketTP implements Runnable{
     }
     @Override
     public void run(){
-        iCliente cliente = null;
-        cliente = new ClienteTP(HostnameServerTCP, PuertoServerTCP);
-        // TODO code application logic here
-        Mensaje mensajeSocket = new Mensaje();
-        Scanner keyboard = new Scanner(System.in);
-        System.out.println("Escribi ");
-        String keyboardString = keyboard.nextLine();
-        mensajeSocket.setSocketIndex(cliente);
-        mensajeSocket.setKeyboard(keyboardString);
         try {
-            cliente.Handle(mensajeSocket);
+            iCliente cliente = null;
+            cliente = new ClienteTP(HostnameServerTCP, PuertoServerTCP);
+            // TODO code application logic here
+            Mensaje mensajeSocket = new Mensaje();
+            Scanner keyboard = new Scanner(System.in);
+            System.out.println("Escribi ");
+            String keyboardString = keyboard.nextLine();
+            mensajeSocket.setSocketIndex(cliente);
+            mensajeSocket.setKeyboard(keyboardString);
+            String Handle;
+            Handle = cliente.Handle(mensajeSocket);
+            System.out.println(Handle);
         } catch (Exception ex) {
             Logger.getLogger(SocketTP.class.getName()).log(Level.SEVERE, null, ex);
         }
-        System.out.println(keyboardString);
     }
 }

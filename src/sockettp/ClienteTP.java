@@ -28,15 +28,16 @@ public class ClienteTP implements iCliente{
         String response = "";
         
         try {
-            try (Socket client = new Socket(HostnameServerTCP, PuertoServerTCP)) {
+                Socket client = new Socket(HostnameServerTCP, PuertoServerTCP);
                 ObjectOutputStream OOS = new ObjectOutputStream(client.getOutputStream());
                 OOS.writeObject(men);
                 
                 InputStreamReader IR = new InputStreamReader(client.getInputStream());
                 BufferedReader BR = new BufferedReader(IR);
                 response = BR.readLine();
-            }
+            
         } catch (IOException e) {
+            System.out.println(e);
         }
         
         return response;

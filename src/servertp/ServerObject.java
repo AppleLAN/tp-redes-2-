@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.PrintStream;
+import java.io.Serializable;
 import java.net.Socket;
 import static javax.swing.text.html.HTML.Tag.BR;
 import static jdk.nashorn.internal.parser.TokenKind.IR;
@@ -18,7 +19,7 @@ import static jdk.nashorn.internal.parser.TokenKind.IR;
  *
  * @author AlanB
  */
-public class ServerObject {
+public class ServerObject implements Serializable{
     private ObjectInputStream BR;
     private PrintStream PS;
     private Socket SOCK;
@@ -27,7 +28,6 @@ public class ServerObject {
         this.SOCK = SOCK;
         this.BR = new ObjectInputStream(SOCK.getInputStream());
         this.PS = new PrintStream(SOCK.getOutputStream());
-
     }
 
     /**
