@@ -39,7 +39,6 @@ public class SocketTP implements Runnable{
             Scanner keyboard = new Scanner(System.in);
             System.out.println("Escribi ");
             String keyboardString = keyboard.nextLine();
-            mensajeSocket.setSocketIndex(cliente);
             mensajeSocket.setKeyboard(keyboardString);
             String Handle;
             Handle = cliente.Handle(mensajeSocket);

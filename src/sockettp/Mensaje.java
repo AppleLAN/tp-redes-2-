@@ -6,42 +6,28 @@
 package sockettp;
 
 import java.io.Serializable;
+import java.net.Socket;
 
 /**
  *
  * @author AlanB
  */
-public final class Mensaje implements Serializable{
+public class Mensaje implements Serializable{
 
-    private static iCliente socketIndex;
-    private static String keyboard;
-
-    /**
-     * @return the socketIndex
-     */
-    public static iCliente getSocket() {
-        return socketIndex;
-    }
-
-    /**
-     * @param socketIndex the socketIndex to set
-     */
-    public static void setSocketIndex(iCliente socketIndex) {
-        Mensaje.socketIndex = socketIndex;
-    }
+    private String keyboard;
 
     /**
      * @return the keyboard
      */
-    public static String getKeyboard() {
+    public String getKeyboard() {
         return keyboard;
     }
 
     /**
      * @param keyboard the keyboard to set
      */
-    public static void setKeyboard(String keyboard) {
-        Mensaje.keyboard = keyboard;
+    public  void setKeyboard(String keyboard) {
+        this.keyboard = keyboard;
     }
 }
 
