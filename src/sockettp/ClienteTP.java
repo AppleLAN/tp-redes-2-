@@ -15,7 +15,7 @@ import java.net.Socket;
  *
  * @author AlanB
  */
-public class ClienteTP implements iCliente{
+public class ClienteTP{
     public static int PuertoServerTCP;
     public static String HostnameServerTCP;
     public ClienteTP(String HostnameServerTCP, int PuertoServerTCP)
@@ -23,23 +23,24 @@ public class ClienteTP implements iCliente{
        ClienteTP.HostnameServerTCP = HostnameServerTCP;
        ClienteTP.PuertoServerTCP = PuertoServerTCP;
     }
-    @Override
-    public String Handle(Mensaje men) throws Exception {
+    public void Handle(Mensaje men) throws Exception {
         String response = "";
         
         try {
                 Socket client = new Socket(HostnameServerTCP, PuertoServerTCP);
                 ObjectOutputStream OOS = new ObjectOutputStream(client.getOutputStream());
                 OOS.writeObject(men);
-                
-                InputStreamReader IR = new InputStreamReader(client.getInputStream());
-                BufferedReader BR = new BufferedReader(IR);
-                response = BR.readLine();
+                while(true){
+                    InputStreamReader IR = new InputStreamReader(client.getInputStream());
+                    BufferedReader BR = new BufferedReader(IR);
+                    response = BR.readLine();
+                    System.out.println(response);
+                }
+               
             
         } catch (IOException e) {
             System.out.println(e);
         }
         
-        return response;
     }
 }

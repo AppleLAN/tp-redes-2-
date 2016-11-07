@@ -32,8 +32,7 @@ public class SocketTP implements Runnable{
     @Override
     public void run(){
         try {
-            iCliente cliente = null;
-            cliente = new ClienteTP(HostnameServerTCP, PuertoServerTCP);
+            ClienteTP cliente = new ClienteTP(HostnameServerTCP, PuertoServerTCP);
             // TODO code application logic here
             Mensaje mensajeSocket = new Mensaje();
             Scanner keyboard = new Scanner(System.in);
@@ -41,8 +40,7 @@ public class SocketTP implements Runnable{
             String keyboardString = keyboard.nextLine();
             mensajeSocket.setKeyboard(keyboardString);
             String Handle;
-            Handle = cliente.Handle(mensajeSocket);
-            System.out.println(Handle);
+            cliente.Handle(mensajeSocket);
         } catch (Exception ex) {
             Logger.getLogger(SocketTP.class.getName()).log(Level.SEVERE, null, ex);
         }
