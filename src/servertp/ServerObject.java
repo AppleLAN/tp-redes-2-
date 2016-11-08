@@ -5,71 +5,54 @@
  */
 package servertp;
 
-import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.PrintStream;
 import java.io.Serializable;
 import java.net.Socket;
 import static javax.swing.text.html.HTML.Tag.BR;
-import static jdk.nashorn.internal.parser.TokenKind.IR;
 
 /**
  *
  * @author AlanB
  */
 public class ServerObject implements Serializable{
-    private ObjectInputStream BR;
-    private PrintStream PS;
+    private DataInputStream DI;
+    private DataOutputStream DO;
     private Socket SOCK;
     
     ServerObject(Socket SOCK) throws IOException {
         this.SOCK = SOCK;
-        this.BR = new ObjectInputStream(SOCK.getInputStream());
-        this.PS = new PrintStream(SOCK.getOutputStream());
+        this.DI = new DataInputStream(SOCK.getInputStream());
+        this.DO = new DataOutputStream(SOCK.getOutputStream());
     }
 
-    /**
-     * @return the BR
-     */
-    public ObjectInputStream getBR() {
-        return BR;
+    public DataInputStream getDI() {
+        return DI;
     }
 
-    /**
-     * @param BR the BR to set
-     */
-    public void setBR(ObjectInputStream BR) {
-        this.BR = BR;
+    public void setDI(DataInputStream DI) {
+        this.DI = DI;
     }
 
-    /**
-     * @return the PS
-     */
-    public PrintStream getPS() {
-        return PS;
+    public DataOutputStream getDO() {
+        return DO;
     }
 
-    /**
-     * @param PS the PS to set
-     */
-    public void setPS(PrintStream PS) {
-        this.PS = PS;
+    public void setDO(DataOutputStream DO) {
+        this.DO = DO;
     }
 
-    /**
-     * @return the SOCK
-     */
     public Socket getSOCK() {
         return SOCK;
     }
 
-    /**
-     * @param SOCK the SOCK to set
-     */
     public void setSOCK(Socket SOCK) {
         this.SOCK = SOCK;
     }
+
+    
 }
 

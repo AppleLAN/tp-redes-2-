@@ -1,13 +1,11 @@
 package servertp;
 
-import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import sockettp.Mensaje;
 
 /**
  *
@@ -17,8 +15,8 @@ public class HiloServidor implements Runnable {
 
     //Declaramos las variables que utiliza el hilo para estar recibiendo y mandando mensajes
     private ServerObject serverObj;
-    private ObjectInputStream in;
-    private PrintStream out;
+    private DataInputStream in;
+    private DataOutputStream out;
     //Lista de los usuarios conectados al servidor
     private ArrayList<ServerObject> usuarios = new ArrayList<ServerObject>();
 
@@ -32,25 +30,28 @@ public class HiloServidor implements Runnable {
     public void run() {
         try {
             //Inicializamos los canales de comunicacion y mandamos un mensaje de bienvenida
-            in = serverObj.getBR();
-            out = serverObj.getPS();
-            out.println("Bienvenido...");
+            in = serverObj.getDI();
+            out = serverObj.getDO();
+            boolean tellReady = false;
             //Ciclo infinito para escuchar por mensajes del cliente
-            while (true) {
-                if (usuarios.size() < 2) {
-                    out.println("espera al otro...");
-                } else {
-                    Mensaje men = (Mensaje) in.readObject();
+            while (true) {     
+                if (usuarios.size() == 2) { 
+                    if(!tellReady){
+                    for (int i = 0; i < usuarios.size(); i++) {
+                        out = usuarios.get(i).getDO();
+                        out.writeUTF("ready,true");
+                    }
+                    tellReady = true;
+                    }
+                    String men = in.readUTF();
                     //Cuando se recibe un mensaje se envia a todos los usuarios conectados 
                     if (serverObj.getSOCK() == usuarios.get(0).getSOCK()) {
-                        out = usuarios.get(1).getPS();
-                        out.println(men.getKeyboard());
+                        out = usuarios.get(1).getDO();
+                        out.writeUTF(men);
                     } else {
-                        out = usuarios.get(0).getPS();
-                        out.println(men.getKeyboard());
+                        out = usuarios.get(0).getDO();
+                        out.writeUTF(men);
                     }
-                    System.out.println(men);
-
                 }
 
             }
@@ -62,8 +63,6 @@ public class HiloServidor implements Runnable {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(HiloServidor.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }

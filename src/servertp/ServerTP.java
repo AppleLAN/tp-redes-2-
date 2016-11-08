@@ -8,7 +8,6 @@ package servertp;
 import java.io.*;
 import java.net.*;
 import java.util.*;
-import sockettp.Mensaje;
 /**
  *
  * @author AlanB
@@ -28,7 +27,7 @@ public class ServerTP {
             final int port = 3000;
             ServerSocket server = new ServerSocket(port);
             System.out.println("Servidor Escuchando por puerto " + String.valueOf(port));
-            
+            String player = "";
             while(true) {
                 if(ConnectionArray.size() < 2){
                     Socket SOCK = server.accept();
@@ -37,7 +36,6 @@ public class ServerTP {
                     ConnectionArray.add(serverObject);
                 
                     System.out.println("Client connected from: " + serverObject.getSOCK().getLocalAddress().getHostName());
-                    
                     Runnable  run = new HiloServidor(serverObject,ConnectionArray);
                     Thread hilo = new Thread(run);
                     hilo.start();
