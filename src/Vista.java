@@ -2,6 +2,8 @@
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Pattern;
+import javax.swing.JOptionPane;
 import sockettp.ClienteTP;
 
 /*
@@ -17,7 +19,7 @@ import sockettp.ClienteTP;
 public class Vista extends javax.swing.JFrame {
     boolean started = false;
     ClienteTP cliente;
-
+    private static final Pattern PATTERN = Pattern.compile("^(([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.){3}([01]?\\d\\d?|2[0-4]\\d|25[0-5])$");
     /**
      * Creates new form Vista
      */
@@ -40,6 +42,8 @@ public class Vista extends javax.swing.JFrame {
         Arriba = new javax.swing.JButton();
         Down = new javax.swing.JButton();
         Rigth = new javax.swing.JButton();
+        ipLabel = new javax.swing.JLabel();
+        ipAdress = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -148,6 +152,14 @@ public class Vista extends javax.swing.JFrame {
             }
         });
 
+        ipLabel.setText("IP");
+
+        ipAdress.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ipAdressActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -155,16 +167,21 @@ public class Vista extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addComponent(ClientStart, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(Down)
-                            .addComponent(Arriba))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(Rigth)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                        .addComponent(Down)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(Rigth))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addContainerGap()
+                            .addComponent(ipLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                            .addGap(10, 10, 10)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(Arriba)
+                                .addComponent(ClientStart, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 91, Short.MAX_VALUE)
+                                .addComponent(ipAdress, javax.swing.GroupLayout.Alignment.LEADING)))))
+                .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 410, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(PanelInicio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -175,20 +192,22 @@ public class Vista extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                        .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(ClientStart)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(38, 38, 38)
-                                .addComponent(Arriba)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(Down))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(53, 53, 53)
-                                .addComponent(Rigth)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(ipLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(ipAdress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(Arriba)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(Down)
+                            .addComponent(Rigth))
+                        .addGap(103, 103, 103))))
         );
 
         pack();
@@ -196,9 +215,16 @@ public class Vista extends javax.swing.JFrame {
 
     private void ClientStartMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ClientStartMouseClicked
             // TODO add your handling code here:
-            cliente = new ClienteTP("localhost",3000,GameTable);
-            Thread hilo = new Thread(cliente);
-            hilo.start();
+            String ip = ipAdress.getText();
+            if(ip!=null && PATTERN.matcher(ip).matches())
+            {
+                cliente = new ClienteTP(ipAdress.getText(),3000,GameTable);
+                Thread hilo = new Thread(cliente);
+                hilo.start();
+            }
+            else
+                JOptionPane.showMessageDialog(null, "Enter A Valid Ip", "InfoBox: " + "Wrong Ip", JOptionPane.INFORMATION_MESSAGE);
+
  
         
     }//GEN-LAST:event_ClientStartMouseClicked
@@ -235,6 +261,10 @@ public class Vista extends javax.swing.JFrame {
         }
         
     }//GEN-LAST:event_ArribaActionPerformed
+
+    private void ipAdressActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ipAdressActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ipAdressActionPerformed
 
     /**
      * @param args the command line arguments
@@ -278,6 +308,8 @@ public class Vista extends javax.swing.JFrame {
     private javax.swing.JTable GameTable;
     private javax.swing.JPanel PanelInicio;
     private javax.swing.JButton Rigth;
+    private javax.swing.JTextField ipAdress;
+    private javax.swing.JLabel ipLabel;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 }
