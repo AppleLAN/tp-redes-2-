@@ -64,6 +64,11 @@ public class Vista extends javax.swing.JFrame {
                 ClientStartMouseClicked(evt);
             }
         });
+        ClientStart.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ClientStartActionPerformed(evt);
+            }
+        });
 
         GameTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -221,6 +226,7 @@ public class Vista extends javax.swing.JFrame {
                 cliente = new ClienteTP(ipAdress.getText(),3000,GameTable);
                 Thread hilo = new Thread(cliente);
                 hilo.start();
+                ClientStart.setEnabled(false);
             }
             else
                 JOptionPane.showMessageDialog(null, "Enter A Valid Ip", "InfoBox: " + "Wrong Ip", JOptionPane.INFORMATION_MESSAGE);
@@ -265,6 +271,10 @@ public class Vista extends javax.swing.JFrame {
     private void ipAdressActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ipAdressActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_ipAdressActionPerformed
+
+    private void ClientStartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ClientStartActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ClientStartActionPerformed
 
     /**
      * @param args the command line arguments
