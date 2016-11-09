@@ -117,6 +117,16 @@ public class ClienteTP implements Runnable{
                                 break;
                                 default:
                             }
+                            if(x == x2 && y == y2){
+                                table.setValueAt(null,x,y);
+                                table.setValueAt(null,x2,y2);
+                                x = xbase1;
+                                y = 1;
+                                x2 = xbase2;
+                                y2 = 18;
+                                table.setValueAt("M",x,y);
+
+                            }
                             if( x2 == xbase1  && y2 == 0){
                                 sendMessage("You Won, Filler" );
                                 JOptionPane.showMessageDialog(null, "You Loose", "InfoBox: " + "Game Ended", JOptionPane.INFORMATION_MESSAGE);
@@ -164,7 +174,17 @@ public class ClienteTP implements Runnable{
                 break;
             default:
         }
-        table.setValueAt("M1",x,y);
+        
+        if(x == x2 && y == y2){
+            table.setValueAt(null,x,y);
+            table.setValueAt(null,x2,y2);
+            x = xbase1;
+            y = 1;
+            x2 = xbase2;
+            y2 = 18;
+            table.setValueAt("E",x2,y2);
+        }
+        table.setValueAt("M",x,y);
         if( x == xbase2  && y == 19){
             sendMessage("I Won, Filler" );
             JOptionPane.showMessageDialog(null, "You Win", "InfoBox: " + "Game Ended", JOptionPane.INFORMATION_MESSAGE);
