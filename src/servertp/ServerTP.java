@@ -27,7 +27,6 @@ public class ServerTP {
             final int port = 3000;
             ServerSocket server = new ServerSocket(port);
             System.out.println("Servidor Escuchando por puerto " + String.valueOf(port));
-            String player = "";
             while(true) {
                 if(ConnectionArray.size() < 2){
                     Socket SOCK = server.accept();

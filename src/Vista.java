@@ -204,8 +204,10 @@ public class Vista extends javax.swing.JFrame {
     }//GEN-LAST:event_ClientStartMouseClicked
 
     private void DownActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DownActionPerformed
+            
         try {
             cliente.sendMessage("move,Down");
+            cliente.move("move,Down");
         } catch (IOException ex) {
             Logger.getLogger(Vista.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -215,6 +217,7 @@ public class Vista extends javax.swing.JFrame {
     private void RigthActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RigthActionPerformed
         try {
             cliente.sendMessage("move,Right");
+            cliente.move("move,Right");
         } catch (IOException ex) {
             Logger.getLogger(Vista.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -225,6 +228,8 @@ public class Vista extends javax.swing.JFrame {
    
         try {
             cliente.sendMessage("move,Up");
+            cliente.move("move,Up");
+
         } catch (IOException ex) {
             Logger.getLogger(Vista.class.getName()).log(Level.SEVERE, null, ex);
         }

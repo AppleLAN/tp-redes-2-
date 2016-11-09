@@ -35,22 +35,28 @@ public class HiloServidor implements Runnable {
             boolean tellReady = false;
             //Ciclo infinito para escuchar por mensajes del cliente
             while (true) {     
+                Thread.sleep(0);
                 if (usuarios.size() == 2) { 
                     if(!tellReady){
-                    for (int i = 0; i < usuarios.size(); i++) {
-                        out = usuarios.get(i).getDO();
-                        out.writeUTF("ready,true");
+                         //Cuando se recibe un mensaje se envia a todos los usuarios conectados 
+                        for (int i = 0; i < usuarios.size(); i++) {
+                            out = usuarios.get(i).getDO();
+                            out.writeUTF("ready,true");
+                            out.flush();
+                        }
+                        tellReady = true;
                     }
-                    tellReady = true;
-                    }
-                    String men = in.readUTF();
-                    //Cuando se recibe un mensaje se envia a todos los usuarios conectados 
-                    if (serverObj.getSOCK() == usuarios.get(0).getSOCK()) {
-                        out = usuarios.get(1).getDO();
-                        out.writeUTF(men);
-                    } else {
-                        out = usuarios.get(0).getDO();
-                        out.writeUTF(men);
+                    else {
+                        String men = in.readUTF();
+                        if (serverObj.getSOCK() == usuarios.get(0).getSOCK()) {
+                            out = usuarios.get(1).getDO();
+                            out.writeUTF(men);
+                            out.flush();
+                        } else {
+                            out = usuarios.get(0).getDO();
+                            out.writeUTF(men);
+                            out.flush();
+                        }
                     }
                 }
 
@@ -63,6 +69,9 @@ public class HiloServidor implements Runnable {
                     break;
                 }
             }
+            System.exit(0);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(HiloServidor.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }
