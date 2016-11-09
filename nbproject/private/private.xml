@@ -5,17 +5,17 @@
             <url>src/servertp/HiloServidor.java</url>
             <bookmark id="1">
                 <name/>
-                <line>37</line>
+                <line>42</line>
                 <key/>
             </bookmark>
         </file>
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/Users/alanbuscaglia/Documents/Work/repos/tp-redes-2-/src/Vista.java</file>
-            <file>file:/Users/alanbuscaglia/Documents/Work/repos/tp-redes-2-/src/sockettp/ClienteTP.java</file>
-            <file>file:/Users/alanbuscaglia/Documents/Work/repos/tp-redes-2-/src/servertp/ServerTP.java</file>
-            <file>file:/Users/alanbuscaglia/Documents/Work/repos/tp-redes-2-/src/servertp/HiloServidor.java</file>
+            <file>file:/C:/Users/Gonzalo%20Rocha/tp%20Redes/tp-redes-2-/src/Vista.java</file>
+            <file>file:/C:/Users/Gonzalo%20Rocha/tp%20Redes/tp-redes-2-/src/servertp/Server.java</file>
+            <file>file:/C:/Users/Gonzalo%20Rocha/tp%20Redes/tp-redes-2-/src/servertp/ManejoHilos.java</file>
+            <file>file:/C:/Users/Gonzalo%20Rocha/tp%20Redes/tp-redes-2-/src/sockettp/Cliente.java</file>
         </group>
     </open-files>
 </project-private>

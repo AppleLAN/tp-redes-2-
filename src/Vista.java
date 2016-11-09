@@ -4,7 +4,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
-import sockettp.ClienteTP;
+import sockettp.Cliente;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -17,8 +17,8 @@ import sockettp.ClienteTP;
  * @author AlanB
  */
 public class Vista extends javax.swing.JFrame {
-    boolean started = false;
-    ClienteTP cliente;
+    boolean empezar = false;
+    Cliente socket;
     private static final Pattern PATTERN = Pattern.compile("^(([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.){3}([01]?\\d\\d?|2[0-4]\\d|25[0-5])$");
     /**
      * Creates new form Vista
@@ -36,9 +36,9 @@ public class Vista extends javax.swing.JFrame {
     private void initComponents() {
 
         PanelInicio = new javax.swing.JPanel();
-        ClientStart = new javax.swing.JButton();
+        btnEmpezar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        GameTable = new javax.swing.JTable();
+        tabla = new javax.swing.JTable();
         Arriba = new javax.swing.JButton();
         Down = new javax.swing.JButton();
         Rigth = new javax.swing.JButton();
@@ -58,19 +58,19 @@ public class Vista extends javax.swing.JFrame {
             .addGap(0, 332, Short.MAX_VALUE)
         );
 
-        ClientStart.setText("Connect");
-        ClientStart.addMouseListener(new java.awt.event.MouseAdapter() {
+        btnEmpezar.setText("Connect");
+        btnEmpezar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                ClientStartMouseClicked(evt);
+                btnEmpezarMouseClicked(evt);
             }
         });
-        ClientStart.addActionListener(new java.awt.event.ActionListener() {
+        btnEmpezar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ClientStartActionPerformed(evt);
+                btnEmpezarActionPerformed(evt);
             }
         });
 
-        GameTable.setModel(new javax.swing.table.DefaultTableModel(
+        tabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
@@ -112,28 +112,28 @@ public class Vista extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(GameTable);
-        if (GameTable.getColumnModel().getColumnCount() > 0) {
-            GameTable.getColumnModel().getColumn(0).setResizable(false);
-            GameTable.getColumnModel().getColumn(1).setResizable(false);
-            GameTable.getColumnModel().getColumn(2).setResizable(false);
-            GameTable.getColumnModel().getColumn(3).setResizable(false);
-            GameTable.getColumnModel().getColumn(4).setResizable(false);
-            GameTable.getColumnModel().getColumn(5).setResizable(false);
-            GameTable.getColumnModel().getColumn(6).setResizable(false);
-            GameTable.getColumnModel().getColumn(7).setResizable(false);
-            GameTable.getColumnModel().getColumn(8).setResizable(false);
-            GameTable.getColumnModel().getColumn(9).setResizable(false);
-            GameTable.getColumnModel().getColumn(10).setResizable(false);
-            GameTable.getColumnModel().getColumn(11).setResizable(false);
-            GameTable.getColumnModel().getColumn(12).setResizable(false);
-            GameTable.getColumnModel().getColumn(13).setResizable(false);
-            GameTable.getColumnModel().getColumn(14).setResizable(false);
-            GameTable.getColumnModel().getColumn(15).setResizable(false);
-            GameTable.getColumnModel().getColumn(16).setResizable(false);
-            GameTable.getColumnModel().getColumn(17).setResizable(false);
-            GameTable.getColumnModel().getColumn(18).setResizable(false);
-            GameTable.getColumnModel().getColumn(19).setResizable(false);
+        jScrollPane1.setViewportView(tabla);
+        if (tabla.getColumnModel().getColumnCount() > 0) {
+            tabla.getColumnModel().getColumn(0).setResizable(false);
+            tabla.getColumnModel().getColumn(1).setResizable(false);
+            tabla.getColumnModel().getColumn(2).setResizable(false);
+            tabla.getColumnModel().getColumn(3).setResizable(false);
+            tabla.getColumnModel().getColumn(4).setResizable(false);
+            tabla.getColumnModel().getColumn(5).setResizable(false);
+            tabla.getColumnModel().getColumn(6).setResizable(false);
+            tabla.getColumnModel().getColumn(7).setResizable(false);
+            tabla.getColumnModel().getColumn(8).setResizable(false);
+            tabla.getColumnModel().getColumn(9).setResizable(false);
+            tabla.getColumnModel().getColumn(10).setResizable(false);
+            tabla.getColumnModel().getColumn(11).setResizable(false);
+            tabla.getColumnModel().getColumn(12).setResizable(false);
+            tabla.getColumnModel().getColumn(13).setResizable(false);
+            tabla.getColumnModel().getColumn(14).setResizable(false);
+            tabla.getColumnModel().getColumn(15).setResizable(false);
+            tabla.getColumnModel().getColumn(16).setResizable(false);
+            tabla.getColumnModel().getColumn(17).setResizable(false);
+            tabla.getColumnModel().getColumn(18).setResizable(false);
+            tabla.getColumnModel().getColumn(19).setResizable(false);
         }
 
         Arriba.setText("Up");
@@ -179,7 +179,7 @@ public class Vista extends javax.swing.JFrame {
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                 .addGap(10, 10, 10)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(ClientStart, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 91, Short.MAX_VALUE)
+                                    .addComponent(btnEmpezar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 91, Short.MAX_VALUE)
                                     .addComponent(ipAdress, javax.swing.GroupLayout.Alignment.LEADING))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
@@ -204,7 +204,7 @@ public class Vista extends javax.swing.JFrame {
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                         .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(ClientStart)
+                        .addComponent(btnEmpezar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(ipLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -225,28 +225,28 @@ public class Vista extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void ClientStartMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ClientStartMouseClicked
+    private void btnEmpezarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEmpezarMouseClicked
             // TODO add your handling code here:
             String ip = ipAdress.getText();
             if(ip!=null && PATTERN.matcher(ip).matches())
             {
-                cliente = new ClienteTP(ipAdress.getText(),3000,GameTable);
-                Thread hilo = new Thread(cliente);
+                socket = new Cliente("localhost",3000,tabla);
+                Thread hilo = new Thread(socket);
                 hilo.start();
-                ClientStart.setEnabled(false);
+                btnEmpezar.setEnabled(false);
             }
             else
-                JOptionPane.showMessageDialog(null, "Enter A Valid Ip", "InfoBox: " + "Wrong Ip", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Ip invalida", "InfoBox: " + "", JOptionPane.INFORMATION_MESSAGE);
 
  
         
-    }//GEN-LAST:event_ClientStartMouseClicked
+    }//GEN-LAST:event_btnEmpezarMouseClicked
 
     private void DownActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DownActionPerformed
             
         try {
-            cliente.sendMessage("move,Down");
-            cliente.move("move,Down");
+            socket.enviarMensaje("movimiento,Down");
+            socket.mover("movimiento,Down");
         } catch (IOException ex) {
             Logger.getLogger(Vista.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -255,8 +255,8 @@ public class Vista extends javax.swing.JFrame {
 
     private void RigthActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RigthActionPerformed
         try {
-            cliente.sendMessage("move,Right");
-            cliente.move("move,Right");
+            socket.enviarMensaje("movimiento,Right");
+            socket.mover("movimiento,Right");
         } catch (IOException ex) {
             Logger.getLogger(Vista.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -266,8 +266,8 @@ public class Vista extends javax.swing.JFrame {
     private void ArribaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ArribaActionPerformed
    
         try {
-            cliente.sendMessage("move,Up");
-            cliente.move("move,Up");
+            socket.enviarMensaje("movimiento,Up");
+            socket.mover("movimiento,Up");
 
         } catch (IOException ex) {
             Logger.getLogger(Vista.class.getName()).log(Level.SEVERE, null, ex);
@@ -279,9 +279,9 @@ public class Vista extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_ipAdressActionPerformed
 
-    private void ClientStartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ClientStartActionPerformed
+    private void btnEmpezarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEmpezarActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_ClientStartActionPerformed
+    }//GEN-LAST:event_btnEmpezarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -320,13 +320,13 @@ public class Vista extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Arriba;
-    private javax.swing.JButton ClientStart;
     private javax.swing.JButton Down;
-    private javax.swing.JTable GameTable;
     private javax.swing.JPanel PanelInicio;
     private javax.swing.JButton Rigth;
+    private javax.swing.JButton btnEmpezar;
     private javax.swing.JTextField ipAdress;
     private javax.swing.JLabel ipLabel;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable tabla;
     // End of variables declaration//GEN-END:variables
 }

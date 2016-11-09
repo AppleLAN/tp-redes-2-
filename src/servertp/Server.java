@@ -12,14 +12,14 @@ import java.util.*;
  *
  * @author AlanB
  */
-public class ServerTP {
-    private final ArrayList<ServerObject> ConnectionArray = new ArrayList<ServerObject>();
+public class Server {
+    private final ArrayList<Socket> ConnectionArray = new ArrayList<Socket>();
     /**
      * @param args the command line arguments
      * @throws java.io.IOException
      */
     public static void main(String[] args) throws Exception {
-            ServerTP SERVER = new ServerTP();
+            Server SERVER = new Server();
             SERVER.run();
     }
     public void run() throws IOException, ClassNotFoundException {
@@ -29,13 +29,13 @@ public class ServerTP {
             System.out.println("Servidor Escuchando por puerto " + String.valueOf(port));
             while(true) {
                 if(ConnectionArray.size() < 2){
-                    Socket SOCK = server.accept();
-                    ServerObject serverObject = new ServerObject(SOCK);
-
-                    ConnectionArray.add(serverObject);
-                
-                    System.out.println("Client connected from: " + serverObject.getSOCK().getLocalAddress().getHostName());
-                    Runnable  run = new HiloServidor(serverObject,ConnectionArray);
+                    Socket cliente = server.accept();
+                    DataInputStream input;
+                    DataOutputStream output;
+                    input = new DataInputStream(cliente.getInputStream());
+                    output = new DataOutputStream(cliente.getOutputStream());
+                    ConnectionArray.add(cliente);
+                    Runnable  run = new ManejoHilos(cliente,input,output,ConnectionArray);
                     Thread hilo = new Thread(run);
                     hilo.start();
                     
