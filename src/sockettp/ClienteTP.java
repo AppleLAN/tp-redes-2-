@@ -27,7 +27,7 @@ public class ClienteTP implements Runnable{
     private DataOutputStream out;
     private JTable table;
     private boolean started = false;
-    int randomNum = 0 + (int)(Math.random() * 14);
+    int randomNum = 0 + (int)(Math.random() * 19);
     int y = 1;
     int x = randomNum;
     int y2 = 0;
